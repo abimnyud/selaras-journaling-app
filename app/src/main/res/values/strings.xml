@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Selaras</string>
+    <string name="search_hint">Cari jurnal kamu</string>
+    <string name="add_journal_button_label">Tambahkan jurnal</string>
+    <string name="add_image_button_label">Add Image</string>
+    <string name="add_link_button_label">Add Link</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="judul_placeholder">Judul</string>
+    <string name="web_url_placeholder">Link eksternal</string>
+    <string name="cancel">Batal</string>
+    <string name="ok">Ok</string>
+    <string name="content_placeholder">Isi jurnal</string>
+</resources>
