@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        fragmentTransition.add(R.id.frame_layout, fragment)
+        fragmentTransition.replace(R.id.frame_layout, fragment)
             .addToBackStack(fragment.javaClass.simpleName).commit()
     }
 

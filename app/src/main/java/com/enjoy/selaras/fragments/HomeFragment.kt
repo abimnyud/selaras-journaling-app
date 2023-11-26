@@ -25,7 +25,6 @@ class HomeFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -196,7 +195,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun basicAlert() {
-        val builder = MaterialAlertDialogBuilder(binding.root.context)
+        val builder = MaterialAlertDialogBuilder(binding.root.context, R.style.Theme_AlertDialog)
 
         val positiveButtonClick = { _: DialogInterface, _: Int ->
             deleteJournals(journalAdapter.getSelectedList())

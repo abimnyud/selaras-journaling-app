@@ -99,6 +99,8 @@ class CreateJournalFragment : BaseFragment() {
     private fun saveJournal() {
         if (binding.etTitle.text.isNullOrEmpty()) {
             Toast.makeText(context, "Judul wajib diisi", Toast.LENGTH_SHORT).show()
+
+            return
         }
 
         launch {

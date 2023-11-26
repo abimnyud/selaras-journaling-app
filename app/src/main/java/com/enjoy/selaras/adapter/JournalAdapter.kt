@@ -72,23 +72,20 @@ class JournalAdapter(val showHideDelete: (Boolean) -> Unit) :
         return true
     }
 
-    fun deleteSelectedItem() {
-        if (selectedList.isNotEmpty()) {
-            journals.removeAll { item ->
-                item.selected
-            }
-        }
-    }
-
     inner class JournalViewHolder(private val binding: ItemRvJournalsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(journal: Journal, position: Int, clickListener: OnItemClickListener?) {
             binding.apply {
-                tvTitle.text = journal.title
                 tvDateTime.text = journal.dateTime
 
-                if (journal.content!!.length > 150) {
-                    tvContent.text = journal.content!!.substring(0, 150).plus("...")
+                if (journal.title!!.trim().length > 50) {
+                    tvTitle.text = journal.title!!.trim().substring(0, 36).plus("...")
+                } else {
+                    tvTitle.text = journal.title
+                }
+
+                if (journal.content!!.trim().length > 150) {
+                    tvContent.text = journal.content!!.trim().substring(0, 150).plus("...")
                 } else {
                     tvContent.text = journal.content
                 }
@@ -122,8 +119,4 @@ class JournalAdapter(val showHideDelete: (Boolean) -> Unit) :
     interface OnItemClickListener {
         fun onClicked(journalId: Int)
     }
-
-//    interface OnLongClickListener {
-//        fun onLongClicked(index: Int)
-//    }
 }
