@@ -99,7 +99,7 @@ class CreateOrUpdateJournalFragment : BaseFragment() {
                     JournalDatabase.getDatabase(it).journalDao().getSpecificJournal(journalId)
 
                 var emotion = ""
-                if (binding.etTitle.text.toString() != journal.content) {
+                if (binding.etContent.text.toString() != journal.content) {
                     val result = emotionApi.getEmotion(
                         URLEncoder.encode(binding.etContent.text.toString(), "UTF-8").toString()
                     )
