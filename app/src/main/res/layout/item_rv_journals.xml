@@ -2,61 +2,48 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_margin="@dimen/_5sdp"
+        android:padding="@dimen/_5sdp"
+        app:strokeWidth="0dp"
+        >
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            android:padding="@dimen/_5sdp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="@dimen/_10sdp"
-            android:shadowRadius="0"
-            android:shadowDy="0"
-            android:outlineProvider="none"
-            android:shadowDx="0"
-            android:elevation="0dp"
-            app:elevation="0dp">
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/_10sdp">
+                android:text="@string/title_default"
+                android:textSize="@dimen/_16ssp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Title"
-                    android:textColor="@color/primaryForeground"
-                    android:textSize="@dimen/_16ssp" />
+            <TextView
+                android:id="@+id/tvContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:alpha="0.5"
+                android:text="@string/content_default"
+                android:textSize="@dimen/_10ssp" />
 
-                <TextView
-                    android:id="@+id/tvContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Content"
-                    android:textColor="@color/mutedPrimaryForeground"
-                    android:textSize="@dimen/_10ssp" />
-
-                <TextView
-                    android:id="@+id/tvDateTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Datetime"
-                    android:textColor="@color/mutedPrimaryForeground"
-                    android:textSize="@dimen/_10ssp" />
+            <TextView
+                android:id="@+id/tvDateTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/datetime_default"
+                android:textSize="@dimen/_10ssp" />
 
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-    </LinearLayout>
 </layout>

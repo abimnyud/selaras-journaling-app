@@ -20,10 +20,7 @@ interface JournalDao {
     suspend fun insertJournal(journal: Journal)
 
     @Delete
-    suspend fun deleteJournal(journal: Journal)
-
-    @Query("DELETE FROM journals WHERE id = :id")
-    suspend fun deleteJournalById(id: Int)
+    suspend fun deleteJournals(journals: List<Journal>)
 
     @Update
     suspend fun update(journal: Journal)

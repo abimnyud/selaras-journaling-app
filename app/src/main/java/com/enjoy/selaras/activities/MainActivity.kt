@@ -1,5 +1,8 @@
 package com.enjoy.selaras.activities
 
+import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
@@ -15,12 +18,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val window = this.window
-        window.statusBarColor = ContextCompat.getColor(this, R.color.background)
-        window.navigationBarColor = ContextCompat.getColor(this, R.color.background)
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        WindowCompat.getInsetsController(window, window.decorView).apply {
-            isAppearanceLightStatusBars = true
+
+        if (isDarkThemeOn()) {
+            window.statusBarColor = ContextCompat.getColor(this, R.color.md_theme_dark_background)
+            window.navigationBarColor = ContextCompat.getColor(this, R.color.md_theme_dark_background)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        } else {
+            window.statusBarColor = ContextCompat.getColor(this, R.color.md_theme_light_background)
+            window.navigationBarColor = ContextCompat.getColor(this, R.color.md_theme_light_background)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            WindowCompat.getInsetsController(window, window.decorView).apply {
+                isAppearanceLightStatusBars = true
+            }
         }
+
 
         replaceFragment(HomeFragment.newInstance(), false)
     }
@@ -29,17 +40,26 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransition = supportFragmentManager.beginTransaction()
 
         if (transition) {
-            fragmentTransition.setCustomAnimations(android.R.anim.slide_out_right, android.R.anim.slide_in_left)
+            fragmentTransition.setCustomAnimations(
+                android.R.anim.slide_out_right,
+                android.R.anim.slide_in_left
+            )
         }
 
-        fragmentTransition.add(R.id.frame_layout, fragment).addToBackStack(fragment.javaClass.simpleName).commit()
+        fragmentTransition.add(R.id.frame_layout, fragment)
+            .addToBackStack(fragment.javaClass.simpleName).commit()
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
         val fragments = supportFragmentManager.fragments
-        if (fragments.size == 0){
+        if (fragments.size == 0) {
             finish()
         }
+    }
+
+    fun Context.isDarkThemeOn(): Boolean {
+        return resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
     }
 }

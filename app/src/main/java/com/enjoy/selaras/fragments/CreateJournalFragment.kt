@@ -1,12 +1,10 @@
 package com.enjoy.selaras.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.enjoy.selaras.R
 import com.enjoy.selaras.database.JournalDatabase
 import com.enjoy.selaras.databinding.FragmentCreateJournalBinding
 import com.enjoy.selaras.entities.Journal
@@ -17,7 +15,7 @@ import java.util.Locale
 
 class CreateJournalFragment : BaseFragment() {
     private lateinit var binding: FragmentCreateJournalBinding
-    private var currentDate: String? = null;
+    private var currentDate: String? = null
     private var journalId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,8 +27,9 @@ class CreateJournalFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCreateJournalBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -58,20 +57,23 @@ class CreateJournalFragment : BaseFragment() {
                     binding.headerTitle.text = journal.dateTime
                 }
             }
+        } else {
+            val sdf = SimpleDateFormat("dd MMM yyyy", Locale("id", "id"))
+            currentDate = sdf.format(Date())
+
+            binding.tvDateTime.text = currentDate
         }
 
-        val sdf = SimpleDateFormat("dd MMM yyyy", Locale("id", "id"))
-        currentDate = sdf.format(Date())
-
-        binding.tvDateTime.text = currentDate;
         binding.btnDone.setOnClickListener {
+            binding.etTitle.clearFocus()
+            binding.etContent.clearFocus()
+
             if (journalId != -1) {
                 updateJournal()
             } else {
                 saveJournal()
             }
         }
-
 
         binding.btnBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()

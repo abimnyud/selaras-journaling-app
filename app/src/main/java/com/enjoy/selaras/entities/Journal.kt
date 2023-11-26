@@ -2,6 +2,7 @@ package com.enjoy.selaras.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
@@ -24,6 +25,8 @@ class Journal : Serializable {
 
     @ColumnInfo("datetime")
     var dateTime: String? = null
+
+    @Ignore var selected: Boolean = false
 
     override fun toString(): String {
         return "$title : $dateTime"

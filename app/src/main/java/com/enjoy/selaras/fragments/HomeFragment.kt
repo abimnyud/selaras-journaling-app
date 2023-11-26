@@ -1,30 +1,30 @@
 package com.enjoy.selaras.fragments
 
+import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.enjoy.selaras.R
 import com.enjoy.selaras.adapter.JournalAdapter
 import com.enjoy.selaras.database.JournalDatabase
 import com.enjoy.selaras.databinding.FragmentHomeBinding
 import com.enjoy.selaras.entities.Journal
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 class HomeFragment : BaseFragment() {
     private lateinit var binding: FragmentHomeBinding
-    private var journalAdapter = JournalAdapter()
+    private var journalAdapter = JournalAdapter { show -> showHideDelete(show) }
     private var journalList = ArrayList<Journal>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -39,6 +39,18 @@ class HomeFragment : BaseFragment() {
             }
     }
 
+    private fun showHideDelete(show: Boolean) {
+        binding.apply {
+            if (show) {
+                btnDelete.show()
+                btnAddJournal.hide()
+            } else {
+                btnDelete.hide()
+                btnAddJournal.show()
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -49,17 +61,33 @@ class HomeFragment : BaseFragment() {
 
         launch {
             context?.let {
-                var journals = JournalDatabase.getDatabase(it).journalDao().getAllJournal()
-                journalAdapter!!.setData(journals)
+                val journals = JournalDatabase.getDatabase(it).journalDao().getAllJournal()
+
+                val activeQuery = binding.searchBar.query
+                if (activeQuery.toString() != "") {
+                    val find = journals.filter { journal ->
+                        (journal.title?.lowercase()
+                            ?.contains(activeQuery.toString()) == true || journal.content?.lowercase()
+                            ?.contains(activeQuery.toString()) == true)
+                    }
+                    journalAdapter.setData(find)
+                } else {
+                    journalAdapter.setData(journals)
+                }
+
                 journalList = journals as ArrayList<Journal>
                 recyclerView.adapter = journalAdapter
             }
         }
 
-        journalAdapter!!.setOnClickListener(onClicked)
+        journalAdapter.setOnClickListener(onClicked)
 
-        binding.addJournalButton.setOnClickListener {
+        binding.btnAddJournal.setOnClickListener {
             replaceFragment(CreateJournalFragment.newInstance(), true)
+        }
+
+        binding.btnDelete.setOnClickListener {
+            basicAlert()
         }
 
         binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -68,13 +96,13 @@ class HomeFragment : BaseFragment() {
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-                var tempArr = journalList.filter {
+                val find = journalList.filter {
                     (it.title?.lowercase()
                         ?.contains(p0.toString()) == true || it.content?.lowercase()
                         ?.contains(p0.toString()) == true)
                 }
 
-                journalAdapter.setData(tempArr)
+                journalAdapter.setData(find)
                 journalAdapter.notifyDataSetChanged()
 
                 return true
@@ -86,15 +114,69 @@ class HomeFragment : BaseFragment() {
 
     private val onClicked = object : JournalAdapter.OnItemClickListener {
         override fun onClicked(journalId: Int) {
-            var fragment: Fragment
-            var bundle = Bundle()
+            val activeQuery = binding.searchBar.query
+            if (activeQuery.isNotEmpty()) {
+                binding.apply {
+                    searchBar.clearFocus()
+                }
+            }
+
+            val fragment: Fragment
+            val bundle = Bundle()
             bundle.putInt("journalId", journalId)
             fragment = CreateJournalFragment.newInstance()
             fragment.arguments = bundle
 
             replaceFragment(fragment, true)
         }
+    }
 
+    private fun deleteJournals(idList: List<Int>) {
+        launch {
+            context?.let {
+                val journalsToDelete = journalList.filter { journal -> idList.contains(journal.id) }
+
+                // Buat animasi satu satu ke delete tapi susah
+//                val journalsToDelete = mutableListOf<Journal>()
+//                val listOfIdx = mutableListOf<Int>()
+
+//                journalList.forEachIndexed { idx, journal ->
+//                    if (idList.contains(journal.id)) {
+//                        journalsToDelete.add(journal)
+//                        listOfIdx.add(idx)
+//                    }
+//                }
+
+                if (journalsToDelete.isNotEmpty()) {
+                    JournalDatabase.getDatabase(it).journalDao().deleteJournals(journalsToDelete)
+                    journalAdapter.resetSelectedList()
+
+                    val journals = JournalDatabase.getDatabase(it).journalDao().getAllJournal()
+
+                    val activeQuery = binding.searchBar.query
+                    if (activeQuery.toString() != "") {
+                        val find = journals.filter { journal ->
+                            (journal.title?.lowercase()
+                                ?.contains(activeQuery.toString()) == true || journal.content?.lowercase()
+                                ?.contains(activeQuery.toString()) == true)
+                        }
+                        journalAdapter.setData(find)
+                    } else {
+                        journalAdapter.setData(journals)
+                    }
+
+//                    listOfIdx.sort()
+//                    listOfIdx.forEach { idx ->
+//                        journalAdapter.notifyItemRemoved(idx)
+//                        journalAdapter.notifyItemRangeChanged(idx, journalAdapter.itemCount);
+//                    }
+
+                    journalList = journals as ArrayList<Journal>
+                    journalAdapter.notifyDataSetChanged()
+                    showHideDelete(false)
+                }
+            }
+        }
     }
 
     private fun replaceFragment(fragment: Fragment, transition: Boolean) {
@@ -111,5 +193,30 @@ class HomeFragment : BaseFragment() {
 
         fragmentTransition.replace(R.id.frame_layout, fragment)
             .addToBackStack(fragment.javaClass.simpleName).commit()
+    }
+
+    private fun basicAlert() {
+        val builder = MaterialAlertDialogBuilder(binding.root.context)
+
+        val positiveButtonClick = { _: DialogInterface, _: Int ->
+            deleteJournals(journalAdapter.getSelectedList())
+        }
+
+        val negativeButtonClick = { _: DialogInterface, _: Int -> }
+
+
+        with(builder)
+        {
+            setTitle(
+                "Kamu yakin ingin menghapus ".plus(journalAdapter.getSelectedList().size)
+                    .plus(" jurnal?")
+            )
+            setMessage("Jurnal yang dipilih akan terhapus permanen dari perangkat kamu.")
+            setPositiveButton("Hapus", DialogInterface.OnClickListener(positiveButtonClick))
+            setNegativeButton("Batal", DialogInterface.OnClickListener(negativeButtonClick))
+            show()
+        }
+
+
     }
 }

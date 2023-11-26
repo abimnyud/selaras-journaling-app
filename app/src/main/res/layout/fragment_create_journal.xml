@@ -5,7 +5,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
+        android:background="?android:attr/colorBackground"
         android:orientation="vertical">
 
         <LinearLayout
@@ -20,17 +20,19 @@
                 android:id="@+id/btn_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/btn_back_description"
                 android:src="@drawable/ic_back"
-                app:tint="@color/black" />
+                app:tint="?android:attr/colorForeground" />
 
             <TextView
                 android:id="@+id/header_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Tambah Jurnal"
-                android:textColor="@color/primaryForeground"
+                android:text="@string/add_journal_title"
+                android:textColor="?android:attr/colorForeground"
+                android:textSize="@dimen/_16ssp"
                 android:textStyle="bold" />
 
             <ImageView
@@ -38,14 +40,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:contentDescription="@string/btn_save_description"
                 android:src="@drawable/ic_check"
-                app:tint="@color/primaryForeground" />
+                app:tint="?android:attr/colorForeground" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_margin="@dimen/_16sdp"
             android:layout_weight="1"
             android:orientation="vertical"
@@ -56,13 +59,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_8sdp"
+                android:autofillHints=""
                 android:background="@null"
                 android:ellipsize="end"
                 android:hint="@string/judul_placeholder"
                 android:inputType="text"
-                android:maxLines="2"
-                android:textColor="@color/primaryForeground"
-                android:textColorHint="@color/mutedPrimaryForeground"
+                android:maxLines="1"
                 android:textSize="@dimen/_28ssp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -77,8 +79,6 @@
                 android:layout_marginVertical="@dimen/_8sdp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/primaryForeground"
-                android:textColorHint="@color/mutedPrimaryForeground"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -87,26 +87,22 @@
             <EditText
                 android:id="@+id/et_content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:layout_weight="1"
+                android:autofillHints=""
                 android:background="@null"
-                android:gravity="top|left"
+                android:gravity="start"
                 android:hint="@string/content_placeholder"
                 android:inputType="textMultiLine"
-                android:maxLines="10"
                 android:minLines="1"
                 android:scrollbars="vertical"
                 android:scrollHorizontally="false"
-                android:textColor="@color/primaryForeground"
-                android:textColorHint="@color/mutedPrimaryForeground"
-                android:textSize="@dimen/_16ssp"
+                android:textSize="@dimen/_14ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_date_time" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 </layout>

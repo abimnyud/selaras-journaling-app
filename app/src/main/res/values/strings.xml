@@ -11,4 +11,11 @@
     <string name="cancel">Batal</string>
     <string name="ok">Ok</string>
     <string name="content_placeholder">Isi jurnal</string>
+    <string name="add_journal_title">Tambah Jurnal</string>
+    <string name="btn_back_description">Kembali</string>
+    <string name="btn_save_description">Simpan</string>
+    <string name="gradient_bottom_description">gradient_bottom_description</string>
+    <string name="title_default">Title</string>
+    <string name="content_default">Content</string>
+    <string name="datetime_default">Datetime</string>
 </resources>

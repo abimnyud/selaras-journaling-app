@@ -3,14 +3,17 @@ package com.enjoy.selaras.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.enjoy.selaras.R
 import com.enjoy.selaras.databinding.ItemRvJournalsBinding
 import com.enjoy.selaras.entities.Journal
+import com.google.android.material.color.MaterialColors
 
-class JournalAdapter() :
+class JournalAdapter(val showHideDelete: (Boolean) -> Unit) :
     RecyclerView.Adapter<JournalAdapter.JournalViewHolder>() {
-    private var listener: OnItemClickListener? = null
+    private var clickListener: OnItemClickListener? = null
     private var journals = ArrayList<Journal>()
     private lateinit var binding: ItemRvJournalsBinding;
+    private var selectedList = mutableListOf<Int>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JournalViewHolder {
         binding = ItemRvJournalsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -21,27 +24,65 @@ class JournalAdapter() :
         return journals.size
     }
 
-    fun setData(journalList: List<Journal>){
+    fun getSelectedList(): List<Int> {
+        return selectedList
+    }
+
+    fun resetSelectedList() {
+        selectedList.clear()
+    }
+
+    fun setData(journalList: List<Journal>) {
         journals = journalList as ArrayList<Journal>
     }
 
-    fun setOnClickListener(listener1: OnItemClickListener){
-        listener = listener1
+    fun setOnClickListener(listener: OnItemClickListener) {
+        clickListener = listener
     }
 
     override fun onBindViewHolder(holder: JournalViewHolder, position: Int) {
-        val journal = journals[position]
-        holder.bind(journal)
+        holder.bind(journals[position], position, clickListener)
+    }
 
-        binding.apply {
-            cardView.setOnClickListener {
-                listener?.onClicked(journal.id!!)
+    private fun deselectItem(journal: Journal, position: Int): Boolean {
+        selectedList.remove(journal.id)
+
+        journals[position].selected = false
+        notifyItemChanged(position)
+
+        showHideDelete(selectedList.isNotEmpty())
+
+        return true
+    }
+
+    fun markSelectedItem(journal: Journal, position: Int): Boolean {
+        if (selectedList.contains(journal.id)) {
+            deselectItem(journal, position)
+
+            return true
+        }
+
+        selectedList.add(journal.id!!)
+
+        journal.selected = true
+
+        notifyItemChanged(position)
+        showHideDelete(true)
+
+        return true
+    }
+
+    fun deleteSelectedItem() {
+        if (selectedList.isNotEmpty()) {
+            journals.removeAll { item ->
+                item.selected
             }
         }
     }
 
-    class JournalViewHolder(private val binding: ItemRvJournalsBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(journal: Journal) {
+    inner class JournalViewHolder(private val binding: ItemRvJournalsBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(journal: Journal, position: Int, clickListener: OnItemClickListener?) {
             binding.apply {
                 tvTitle.text = journal.title
                 tvDateTime.text = journal.dateTime
@@ -51,11 +92,38 @@ class JournalAdapter() :
                 } else {
                     tvContent.text = journal.content
                 }
+
+                if (journal.selected) {
+                    cardView.setCardBackgroundColor(MaterialColors.getColor(binding.cardView, com.google.android.material.R.attr.colorTertiaryContainer))
+                    tvContent.setTextColor(MaterialColors.getColor(binding.cardView, com.google.android.material.R.attr.colorOnTertiaryContainer))
+                    tvTitle.setTextColor(MaterialColors.getColor(binding.cardView, com.google.android.material.R.attr.colorOnTertiaryContainer))
+                    tvDateTime.setTextColor(MaterialColors.getColor(binding.cardView, com.google.android.material.R.attr.colorOnTertiaryContainer))
+                } else {
+                    cardView.setCardBackgroundColor(MaterialColors.getColor(binding.cardView, com.google.android.material.R.attr.colorSurfaceContainerHighest))
+                    tvContent.setTextColor(MaterialColors.getColor(binding.cardView, com.google.android.material.R.attr.colorOnSurface))
+                    tvTitle.setTextColor(MaterialColors.getColor(binding.cardView, com.google.android.material.R.attr.colorOnSurface))
+                    tvDateTime.setTextColor(MaterialColors.getColor(binding.cardView, com.google.android.material.R.attr.colorOnSurface))
+                }
+
+                cardView.setOnClickListener {
+                    if (selectedList.isNotEmpty()) {
+                        markSelectedItem(journal, position)
+                    } else {
+                        selectedList.clear()
+                        clickListener!!.onClicked(journal.id!!)
+                    }
+                }
+
+                cardView.setOnLongClickListener { markSelectedItem(journal, position) }
             }
         }
     }
 
-    interface OnItemClickListener{
-        fun onClicked(journalId:Int)
+    interface OnItemClickListener {
+        fun onClicked(journalId: Int)
     }
+
+//    interface OnLongClickListener {
+//        fun onLongClicked(index: Int)
+//    }
 }
