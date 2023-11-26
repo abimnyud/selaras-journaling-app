@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun Context.isDarkThemeOn(): Boolean {
+    private fun Context.isDarkThemeOn(): Boolean {
         return resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
     }

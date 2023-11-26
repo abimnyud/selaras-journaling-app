@@ -18,4 +18,6 @@
     <string name="title_default">Title</string>
     <string name="content_default">Content</string>
     <string name="datetime_default">Datetime</string>
+    <string name="default_emotion">☺️</string>
+    <string name="loading_text_default">Loading...</string>
 </resources>

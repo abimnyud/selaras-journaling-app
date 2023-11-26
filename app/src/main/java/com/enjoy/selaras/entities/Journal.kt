@@ -1,5 +1,6 @@
 package com.enjoy.selaras.entities
 
+import androidx.annotation.Nullable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -22,6 +23,9 @@ class Journal : Serializable {
 
     @ColumnInfo("color")
     var color: String? = null
+
+    @ColumnInfo(name = "emotion", )
+    var emotion: String? = null
 
     @ColumnInfo("datetime")
     var dateTime: String? = null

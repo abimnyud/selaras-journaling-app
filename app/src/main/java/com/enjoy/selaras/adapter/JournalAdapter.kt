@@ -3,7 +3,6 @@ package com.enjoy.selaras.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.enjoy.selaras.R
 import com.enjoy.selaras.databinding.ItemRvJournalsBinding
 import com.enjoy.selaras.entities.Journal
 import com.google.android.material.color.MaterialColors
@@ -12,7 +11,7 @@ class JournalAdapter(val showHideDelete: (Boolean) -> Unit) :
     RecyclerView.Adapter<JournalAdapter.JournalViewHolder>() {
     private var clickListener: OnItemClickListener? = null
     private var journals = ArrayList<Journal>()
-    private lateinit var binding: ItemRvJournalsBinding;
+    private lateinit var binding: ItemRvJournalsBinding
     private var selectedList = mutableListOf<Int>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JournalViewHolder {
@@ -78,6 +77,27 @@ class JournalAdapter(val showHideDelete: (Boolean) -> Unit) :
             binding.apply {
                 tvDateTime.text = journal.dateTime
 
+                when (journal.emotion) {
+                    "sadness" -> {
+                        tvEmotion.text = "😔"
+                    }
+                    "happy" -> {
+                        tvEmotion.text = "🥳"
+                    }
+                    "love" -> {
+                        tvEmotion.text = "❤️"
+                    }
+                    "anger" -> {
+                        tvEmotion.text = "😡"
+                    }
+                    "fear" -> {
+                        tvEmotion.text = "😰"
+                    }
+                    else -> {
+                        tvEmotion.text = ""
+                    }
+                }
+
                 if (journal.title!!.trim().length > 50) {
                     tvTitle.text = journal.title!!.trim().substring(0, 36).plus("...")
                 } else {
@@ -91,15 +111,55 @@ class JournalAdapter(val showHideDelete: (Boolean) -> Unit) :
                 }
 
                 if (journal.selected) {
-                    cardView.setCardBackgroundColor(MaterialColors.getColor(binding.cardView, com.google.android.material.R.attr.colorTertiaryContainer))
-                    tvContent.setTextColor(MaterialColors.getColor(binding.cardView, com.google.android.material.R.attr.colorOnTertiaryContainer))
-                    tvTitle.setTextColor(MaterialColors.getColor(binding.cardView, com.google.android.material.R.attr.colorOnTertiaryContainer))
-                    tvDateTime.setTextColor(MaterialColors.getColor(binding.cardView, com.google.android.material.R.attr.colorOnTertiaryContainer))
+                    cardView.setCardBackgroundColor(
+                        MaterialColors.getColor(
+                            binding.cardView,
+                            com.google.android.material.R.attr.colorTertiaryContainer
+                        )
+                    )
+                    tvContent.setTextColor(
+                        MaterialColors.getColor(
+                            binding.cardView,
+                            com.google.android.material.R.attr.colorOnTertiaryContainer
+                        )
+                    )
+                    tvTitle.setTextColor(
+                        MaterialColors.getColor(
+                            binding.cardView,
+                            com.google.android.material.R.attr.colorOnTertiaryContainer
+                        )
+                    )
+                    tvDateTime.setTextColor(
+                        MaterialColors.getColor(
+                            binding.cardView,
+                            com.google.android.material.R.attr.colorOnTertiaryContainer
+                        )
+                    )
                 } else {
-                    cardView.setCardBackgroundColor(MaterialColors.getColor(binding.cardView, com.google.android.material.R.attr.colorSurfaceContainerHighest))
-                    tvContent.setTextColor(MaterialColors.getColor(binding.cardView, com.google.android.material.R.attr.colorOnSurface))
-                    tvTitle.setTextColor(MaterialColors.getColor(binding.cardView, com.google.android.material.R.attr.colorOnSurface))
-                    tvDateTime.setTextColor(MaterialColors.getColor(binding.cardView, com.google.android.material.R.attr.colorOnSurface))
+                    cardView.setCardBackgroundColor(
+                        MaterialColors.getColor(
+                            binding.cardView,
+                            com.google.android.material.R.attr.colorSurfaceContainerHighest
+                        )
+                    )
+                    tvContent.setTextColor(
+                        MaterialColors.getColor(
+                            binding.cardView,
+                            com.google.android.material.R.attr.colorOnSurface
+                        )
+                    )
+                    tvTitle.setTextColor(
+                        MaterialColors.getColor(
+                            binding.cardView,
+                            com.google.android.material.R.attr.colorOnSurface
+                        )
+                    )
+                    tvDateTime.setTextColor(
+                        MaterialColors.getColor(
+                            binding.cardView,
+                            com.google.android.material.R.attr.colorOnSurface
+                        )
+                    )
                 }
 
                 cardView.setOnClickListener {

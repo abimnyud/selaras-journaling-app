@@ -51,6 +51,13 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+    // GSON
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
     // Circle image view
     implementation("de.hdodenhof:circleimageview:3.1.0")
 
@@ -65,6 +72,6 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.0")
     implementation("androidx.room:room-ktx:2.6.0")
 
-    // Coroutines
+    // Coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
 }

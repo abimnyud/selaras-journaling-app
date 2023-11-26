@@ -82,7 +82,7 @@ class HomeFragment : BaseFragment() {
         journalAdapter.setOnClickListener(onClicked)
 
         binding.btnAddJournal.setOnClickListener {
-            replaceFragment(CreateJournalFragment.newInstance(), true)
+            replaceFragment(CreateOrUpdateJournalFragment.newInstance(), true)
         }
 
         binding.btnDelete.setOnClickListener {
@@ -123,7 +123,7 @@ class HomeFragment : BaseFragment() {
             val fragment: Fragment
             val bundle = Bundle()
             bundle.putInt("journalId", journalId)
-            fragment = CreateJournalFragment.newInstance()
+            fragment = CreateOrUpdateJournalFragment.newInstance()
             fragment.arguments = bundle
 
             replaceFragment(fragment, true)
