@@ -3,14 +3,16 @@ package com.enjoy.selaras.activities
 import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.enjoy.selaras.R
-import com.enjoy.selaras.fragments.HomeFragment
+import com.enjoy.selaras.fragment.HomeFragment
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +33,6 @@ class MainActivity : AppCompatActivity() {
                 isAppearanceLightStatusBars = true
             }
         }
-
 
         replaceFragment(HomeFragment.newInstance(), false)
     }

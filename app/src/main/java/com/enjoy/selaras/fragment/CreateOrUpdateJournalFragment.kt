@@ -1,17 +1,17 @@
-package com.enjoy.selaras.fragments
+package com.enjoy.selaras.fragment
 
-import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.enjoy.selaras.R
 import com.enjoy.selaras.database.JournalDatabase
-import com.enjoy.selaras.databinding.FragmentCreateJournalBinding
+import com.enjoy.selaras.databinding.FragmentCreateOrUpdateJournalBinding
 import com.enjoy.selaras.entities.Journal
 import com.enjoy.selaras.helpers.RetrofitHelper
-import com.enjoy.selaras.interfaces.EmotionApi
+import com.enjoy.selaras.`interface`.EmotionApi
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import java.net.URLEncoder
@@ -20,7 +20,7 @@ import java.util.Date
 import java.util.Locale
 
 class CreateOrUpdateJournalFragment : BaseFragment() {
-    private lateinit var binding: FragmentCreateJournalBinding
+    private lateinit var binding: FragmentCreateOrUpdateJournalBinding
     private var currentDate: String? = null
     private var journalId = -1
     private lateinit var emotionApi: EmotionApi
@@ -36,7 +36,7 @@ class CreateOrUpdateJournalFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCreateJournalBinding.inflate(inflater, container, false)
+        binding = FragmentCreateOrUpdateJournalBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -100,14 +100,17 @@ class CreateOrUpdateJournalFragment : BaseFragment() {
 
                 var emotion = ""
                 if (binding.etContent.text.toString() != journal.content) {
-                    val result = emotionApi.getEmotion(
-                        URLEncoder.encode(binding.etContent.text.toString(), "UTF-8").toString()
-                    )
+                    try {
+                        val result = emotionApi.getEmotion(
+                            URLEncoder.encode(binding.etContent.text.toString(), "UTF-8").toString()
+                        )
 
 
-                    if (result.isSuccessful) {
-                        emotion = result.body()!!.label
-                    }
+                        if (result.isSuccessful) {
+                            emotion = result.body()!!.label
+                        }
+
+                    } catch (_: Error) { }
                 }
 
                 journal.title = binding.etTitle.text.toString()
@@ -136,13 +139,18 @@ class CreateOrUpdateJournalFragment : BaseFragment() {
 
         launch {
             context?.let {
-                val result = emotionApi.getEmotion(
-                    URLEncoder.encode(binding.etContent.text.toString(), "UTF-8").toString()
-                )
-
                 var emotion = ""
-                if (result.isSuccessful) {
-                    emotion = result.body()!!.label
+
+                try {
+                    val result = emotionApi.getEmotion(
+                        URLEncoder.encode(binding.etContent.text.toString(), "UTF-8").toString()
+                    )
+
+                    if (result.isSuccessful) {
+                        emotion = result.body()!!.label
+                    }
+
+                } catch (_: Error) {
                 }
 
                 val journal = Journal()

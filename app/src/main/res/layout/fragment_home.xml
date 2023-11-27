@@ -15,7 +15,7 @@
             <android.widget.SearchView
                 android:id="@+id/search_bar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_48sdp"
+                android:layout_height="@dimen/_42sdp"
                 android:layout_marginHorizontal="@dimen/_16sdp"
                 android:layout_marginVertical="@dimen/_16sdp"
                 android:background="@drawable/search_bar_background"
@@ -41,41 +41,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/search_bar" />
 
-            <!--    <LinearLayout-->
-            <!--        android:id="@+id/app_bar"-->
-            <!--        android:layout_width="match_parent"-->
-            <!--        android:layout_height="wrap_content"-->
-            <!--        android:background="@color/white"-->
-            <!--        android:orientation="horizontal"-->
-            <!--        android:padding="@dimen/_16sdp"-->
-            <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--        app:layout_constraintEnd_toEndOf="parent"-->
-            <!--        app:layout_constraintStart_toStartOf="parent">-->
-
-            <!--        <ImageView-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:contentDescription="@string/add_image_button_label"-->
-            <!--            android:src="@drawable/ic_image"-->
-            <!--            app:tint="@color/primaryForeground" />-->
-
-            <!--        <ImageView-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:contentDescription="@string/add_link_button_label"-->
-            <!--            android:paddingStart="@dimen/_12sdp"-->
-            <!--            android:paddingEnd="0dp"-->
-            <!--            android:src="@drawable/ic_link"-->
-            <!--            app:tint="@color/primaryForeground" />-->
-
-            <!--    </LinearLayout>-->
-
         </LinearLayout>
 
         <ImageView
             android:layout_width="match_parent"
+            android:id="@+id/gradient_app_bar_bg"
             android:layout_height="@dimen/_80sdp"
-            android:src="@drawable/gradient_app_bar_bg"
+            android:src="@drawable/gradient_app_bar_bg_default"
             android:contentDescription="@string/gradient_bottom_description"
             app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -84,12 +56,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_48sdp"
             android:backgroundTint="@color/primary"
             android:contentDescription="@string/add_journal_button_label"
-            android:elevation="0dp"
             android:src="@drawable/ic_add"
-            app:elevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -100,13 +70,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_48sdp"
             android:backgroundTint="?attr/colorErrorContainer"
             android:contentDescription="@string/add_journal_button_label"
-            android:elevation="0dp"
             android:src="@drawable/ic_delete"
             android:visibility="gone"
-            app:elevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

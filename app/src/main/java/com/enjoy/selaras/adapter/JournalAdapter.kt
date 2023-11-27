@@ -2,6 +2,7 @@ package com.enjoy.selaras.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.enjoy.selaras.databinding.ItemRvJournalsBinding
 import com.enjoy.selaras.entities.Journal

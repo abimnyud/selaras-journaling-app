@@ -1,4 +1,4 @@
-package com.enjoy.selaras.interfaces
+package com.enjoy.selaras.`interface`
 
 import com.enjoy.selaras.entities.Emotion
 import retrofit2.Response
